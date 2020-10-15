@@ -4,6 +4,8 @@ import Chance from 'chance';
 
 // All required CSS files
 import "tui-calendar/dist/tui-calendar.css";
+import 'tui-date-picker/dist/tui-date-picker.css';
+import 'tui-time-picker/dist/tui-time-picker.css';
 
 // To generate random IDs for schedules
 let chance = new Chance();
@@ -14,14 +16,38 @@ cal = new Calendar('#calendar', {
     defaultView: 'month',
     useCreationPopup: true,
     useDetailPopup: true,
+    template: {
+
+        // Title to be shown in the calendar for a limited timed event
+        time: function(schedule) {
+            console.log("time template was called");
+
+            let html = [];
+
+            // Add time of the event
+            let start = moment(schedule.start.toUTCString());
+            html.push(start.format('HH:mm'));
+
+            // Add title of the event
+            html.push(' '+schedule.title);
+
+            return html.join('');
+        },
+
+        // Title to be shown for an allday event
+        allday: function(schedule) {
+            console.log("allday template was called");
+            return schedule.title;
+        }
+    }
 });
 
 // Callbacks for events that happen on the calendar
 cal.on({
+
+    // This gets called when you create an event.
     'beforeCreateSchedule': function (scheduleData) {
-        // Parse data from e to schedule obj
-        // Create a schedule in the calendar
-        console.log("before create schedule", scheduleData);
+        console.log("before create schedule");
 
         var schedule = {
             id: String(chance.guid()),
