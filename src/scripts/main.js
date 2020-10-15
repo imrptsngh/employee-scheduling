@@ -69,7 +69,22 @@ cal.on({
         };
 
         cal.createSchedules([schedule]);
-    }
+    },
+
+    // This gets called for updating an event.
+    'beforeUpdateSchedule': function(e) {
+        var schedule = e.schedule;
+        var changes = e.changes;
+
+        console.log('beforeUpdateSchedule event called.');
+
+        // If the schedule is no longer an allday event, mark it accordingly
+        if (changes && !changes.isAllDay && schedule.category === 'allday') {
+            changes.category = 'time';
+        }
+
+        cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+    },
 });
 
 
