@@ -45,7 +45,7 @@ cal = new Calendar('#calendar', {
 // Callbacks for events that happen on the calendar
 cal.on({
 
-    // This gets called when you create an event.
+    // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
         console.log("before create schedule");
 
@@ -71,7 +71,7 @@ cal.on({
         cal.createSchedules([schedule]);
     },
 
-    // This gets called for updating an event.
+    // This gets called when a schedule is updated.
     'beforeUpdateSchedule': function(e) {
         var schedule = e.schedule;
         var changes = e.changes;
@@ -84,6 +84,12 @@ cal.on({
         }
 
         cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+    },
+
+    // This gets called when a scehdule is deleted.
+    'beforeDeleteSchedule': function(e) {
+        console.log('beforeDeleteSchedule', e);
+        cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
     },
 });
 
