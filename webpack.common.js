@@ -62,14 +62,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new WriteFilePlugin(),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src', 'robots.txt'),
-          to: path.resolve(__dirname, 'dist', 'robots.txt')
-        }
-      ]
-    }),
+    
     new HtmlWebpackPlugin({
       title: 'tris-home-page',
       filename: 'index.html',
