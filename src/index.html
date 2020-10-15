@@ -1,28 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Calendar App 📦</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
 
-  <body>
-    
-    <!-- Add proper CSS files for beautiful UI -->
-    <!-- <div id="menu">
-      <span id="menu-navi">
-        <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
-        <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
-          <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
-        </button>
-        <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
-          <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
-        </button>
-      </span>
-      <span id="renderRange" class="render-range"></span>
-    </div> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-    <div id="calendar"></div>
+</head>
 
-  </body>
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Calendar App</a>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="center-block">
+                <h3 id="calCurrent" align="center">April, 2020</h3>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-4">
+                <!-- Buttons to go forward and backward in Calendar -->
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="calPrev">Prev</button>
+                    <button type="button" class="btn btn-default" id="calNext">Next</button>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Monthly
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#">Daily</a></li>
+                        <li><a href="#">Weekly</a></li>
+                        <li><a href="#">Monthly</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <button class="btn btn-primary pull-right">Today</button>
+            </div>
+
+
+        </div>
+
+
+        <br />
+
+        <!-- Place to render the calendar Application from JS -->
+        <div class="row">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+</body>
+
 </html>
