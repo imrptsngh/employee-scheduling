@@ -76,12 +76,6 @@ module.exports = {
       template: './src/index.html',
       inject: 'head'
     }),
-    new HtmlWebpackPlugin({
-      title: 'tris-404-page',
-      filename: '404.html',
-      template: './src/404.html',
-      inject: 'head'
-    }),
     new PreloadWebpackPlugin({
       rel: 'preload',
       as(entry) {
