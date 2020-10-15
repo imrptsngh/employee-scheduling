@@ -1,9 +1,12 @@
 import Calendar from 'tui-calendar';
 import moment from 'moment';
+import Chance from 'chance';
 
 // All required CSS files
 import "tui-calendar/dist/tui-calendar.css";
 
+// To generate random IDs for schedules
+let chance = new Chance();
 
 // Creating calendar object
 let cal;
@@ -11,16 +14,35 @@ cal = new Calendar('#calendar', {
     defaultView: 'month',
     useCreationPopup: true,
     useDetailPopup: true,
-    template: {
-        milestone: function (model) {
-            return '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + model.bgColor + '">' + model.title + '</span>';
-        },
-        allday: function (schedule) {
-            return getTimeTemplate(schedule, true);
-        },
-        time: function (schedule) {
-            return getTimeTemplate(schedule, false);
-        }
+});
+
+// Callbacks for events that happen on the calendar
+cal.on({
+    'beforeCreateSchedule': function (scheduleData) {
+        // Parse data from e to schedule obj
+        // Create a schedule in the calendar
+        console.log("before create schedule", scheduleData);
+
+        var schedule = {
+            id: String(chance.guid()),
+            title: scheduleData.title,
+            isAllDay: scheduleData.isAllDay,
+            start: scheduleData.start,
+            end: scheduleData.end,
+            category: scheduleData.isAllDay ? 'allday' : 'time',
+            dueDateClass: '',
+            color: calendar.color,
+            bgColor: calendar.bgColor,
+            dragBgColor: calendar.bgColor,
+            borderColor: calendar.borderColor,
+            location: scheduleData.location,
+            raw: {
+                class: scheduleData.raw['class']
+            },
+            state: scheduleData.state
+        };
+
+        cal.createSchedules([schedule]);
     }
 });
 
@@ -69,6 +91,7 @@ function calendarToday(e) {
 }
 
 function dailyCalendarView() {
+    console.log("Changing calendar view to daily.");
     cal.changeView('day');
     updateCurrentlyRenderedRange();
 
@@ -77,6 +100,7 @@ function dailyCalendarView() {
 }
 
 function weeklyCalendarView() {
+    console.log("Changing calendar view to weekly.");
     cal.changeView('week');
     updateCurrentlyRenderedRange();
 
@@ -85,6 +109,7 @@ function weeklyCalendarView() {
 }
 
 function monthlyCalendarView() {
+    console.log("Changing calendar view to monthly.");
     cal.changeView('month');
     updateCurrentlyRenderedRange();
 
@@ -93,12 +118,12 @@ function monthlyCalendarView() {
 }
 
 
-// Registering event listeners for next, prev, and today
+// Callbacks for Next, Prev and Today buttons
 document.getElementById("calNext").addEventListener("click", calendarNext);
 document.getElementById("calPrev").addEventListener("click", calendarPrevious);
 document.getElementById("calToday").addEventListener("click", calendarToday);
 
-// Callback for changing calendar view
+// Callbacks for changing calendar view
 document.getElementById("dailyCalView").addEventListener("click", dailyCalendarView);
 document.getElementById("weeklyCalView").addEventListener("click", weeklyCalendarView);
 document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
