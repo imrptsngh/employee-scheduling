@@ -38,13 +38,13 @@ function updateCurrentlyRenderedRange() {
 
     var html = [];
     if (viewName === 'day') {
-        html.push(currentCalendarDate('YYYY.MM.DD'));
+        html.push(currentCalendarDate('Do MMM, YYYY'));
     } else if (viewName === 'month') {
         html.push(currentCalendarDate('MMMM, YYYY'));
     } else {
-        html.push(moment(cal.getDateRangeStart().getTime()).format('Do, MM, YYYY'));
+        html.push(moment(cal.getDateRangeStart().getTime()).format(' Do'));
         html.push(' ~ ');
-        html.push(moment(cal.getDateRangeEnd().getTime()).format(' MM.DD'));
+        html.push(moment(cal.getDateRangeEnd().getTime()).format(' Do MMM, YYYY'));
     }
     renderRange.innerHTML = html.join('');
 }
@@ -68,11 +68,41 @@ function calendarToday(e) {
     updateCurrentlyRenderedRange();
 }
 
+function dailyCalendarView() {
+    cal.changeView('day');
+    updateCurrentlyRenderedRange();
+
+    var currentCalView = document.getElementById("currentCalendarView");
+    currentCalView.innerHTML = 'Daily <span class="caret"></span>';
+}
+
+function weeklyCalendarView() {
+    cal.changeView('week');
+    updateCurrentlyRenderedRange();
+
+    var currentCalView = document.getElementById("currentCalendarView");
+    currentCalView.innerHTML = 'Weekly <span class="caret"></span>';
+}
+
+function monthlyCalendarView() {
+    cal.changeView('month');
+    updateCurrentlyRenderedRange();
+
+    var currentCalView = document.getElementById("currentCalendarView");
+    currentCalView.innerHTML = 'Monthly <span class="caret"></span>';
+}
+
 
 // Registering event listeners for next, prev, and today
 document.getElementById("calNext").addEventListener("click", calendarNext);
 document.getElementById("calPrev").addEventListener("click", calendarPrevious);
 document.getElementById("calToday").addEventListener("click", calendarToday);
+
+// Callback for changing calendar view
+document.getElementById("dailyCalView").addEventListener("click", dailyCalendarView);
+document.getElementById("weeklyCalView").addEventListener("click", weeklyCalendarView);
+document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
+
 
 // Update the text for the currently rendered range
 updateCurrentlyRenderedRange();
