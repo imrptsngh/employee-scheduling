@@ -6,6 +6,7 @@ import Chance from 'chance';
 import "tui-calendar/dist/tui-calendar.css";
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
+import WebpackDevServer from 'webpack-dev-server';
 
 // To generate random IDs for schedules
 let chance = new Chance();
@@ -178,3 +179,16 @@ document.getElementById("monthlyCalView").addEventListener("click", monthlyCalen
 
 // Update the text for the currently rendered range
 updateCurrentlyRenderedRange();
+
+
+function listOfSchedules() {
+    let schedules = cal._controller.schedules.items;
+    console.log("Get the list of schedule.");
+    for(let x in schedules) {
+        document.getElementById("scheduleList").innerHTML = x + "<br>";
+    }
+    console.log(schedules);
+    // TODO Send this information back to our servers for processing.
+}
+
+document.getElementById("getScheduleBtn").addEventListener("click", listOfSchedules);
