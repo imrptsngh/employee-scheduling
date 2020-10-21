@@ -6,7 +6,6 @@ import Chance from 'chance';
 import "tui-calendar/dist/tui-calendar.css";
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
-import WebpackDevServer from 'webpack-dev-server';
 
 // To generate random IDs for schedules
 let chance = new Chance();
@@ -20,7 +19,7 @@ cal = new Calendar('#calendar', {
     template: {
 
         // Title to be shown in the calendar for a limited timed event
-        time: function(schedule) {
+        time: function (schedule) {
             console.log("time template was called");
 
             let html = [];
@@ -30,13 +29,13 @@ cal = new Calendar('#calendar', {
             html.push(start.format('HH:mm'));
 
             // Add title of the event
-            html.push(' '+schedule.title);
+            html.push(' ' + schedule.title);
 
             return html.join('');
         },
 
         // Title to be shown for an allday event
-        allday: function(schedule) {
+        allday: function (schedule) {
             console.log("allday template was called");
             return schedule.title;
         }
@@ -45,6 +44,9 @@ cal = new Calendar('#calendar', {
 
 // Callbacks for events that happen on the calendar
 cal.on({
+    'clickSchedule': function(e) {
+        console.log('clickSchedule callback', e);
+    },
 
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
@@ -73,7 +75,7 @@ cal.on({
     },
 
     // This gets called when a schedule is updated.
-    'beforeUpdateSchedule': function(e) {
+    'beforeUpdateSchedule': function (e) {
         var schedule = e.schedule;
         var changes = e.changes;
 
@@ -88,7 +90,7 @@ cal.on({
     },
 
     // This gets called when a scehdule is deleted.
-    'beforeDeleteSchedule': function(e) {
+    'beforeDeleteSchedule': function (e) {
         console.log('beforeDeleteSchedule', e);
         cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
     },
@@ -165,6 +167,30 @@ function monthlyCalendarView() {
     currentCalView.innerHTML = 'Monthly <span class="caret"></span>';
 }
 
+function listOfSchedules() {
+    let schedules = cal._controller.schedules.items;
+    console.log("Get the list of schedule.");
+    for (let x in schedules) {
+        document.getElementById("scheduleList").innerHTML = x + "<br>";
+    }
+    console.log(schedules);
+    // TODO Send this information back to our servers for processing.
+}
+
+function fillUpCalendarInitially() {
+    console.log("Setup initial calendar. Using data from server.");
+    // TODO Fetch values from Server
+    // fetch('http://example.com/movies.json')
+    //     .then(response => response.json())
+    //     .then(function(data) {
+    //         console.log("Received data from server: ");
+    //         console.log(data);
+
+    //         cal.createSchedules(data);
+    //         cal.render(true);
+    //     });
+}
+
 
 // Callbacks for Next, Prev and Today buttons
 document.getElementById("calNext").addEventListener("click", calendarNext);
@@ -176,19 +202,9 @@ document.getElementById("dailyCalView").addEventListener("click", dailyCalendarV
 document.getElementById("weeklyCalView").addEventListener("click", weeklyCalendarView);
 document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
 
+// Publish Button callback
+document.getElementById("getScheduleBtn").addEventListener("click", listOfSchedules);
 
 // Update the text for the currently rendered range
 updateCurrentlyRenderedRange();
-
-
-function listOfSchedules() {
-    let schedules = cal._controller.schedules.items;
-    console.log("Get the list of schedule.");
-    for(let x in schedules) {
-        document.getElementById("scheduleList").innerHTML = x + "<br>";
-    }
-    console.log(schedules);
-    // TODO Send this information back to our servers for processing.
-}
-
-document.getElementById("getScheduleBtn").addEventListener("click", listOfSchedules);
+fillUpCalendarInitially();
