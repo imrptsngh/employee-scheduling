@@ -309,7 +309,6 @@ function scheduleDetailPopup(schedule) {
 
 }
 
-
 // Callbacks for Next, Prev and Today buttons
 document.getElementById("calNext").addEventListener("click", calendarNext);
 document.getElementById("calPrev").addEventListener("click", calendarPrevious);
