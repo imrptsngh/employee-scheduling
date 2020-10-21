@@ -16,7 +16,7 @@ let chance = new Chance();
 let cal;
 cal = new Calendar('#calendar', {
     defaultView: 'month',
-    useCreationPopup: true,
+    useCreationPopup: false,
     useDetailPopup: true,
     template: {
 
@@ -52,7 +52,9 @@ cal.on({
 
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
-        console.log("before create schedule");
+        console.log("before create schedule, scheduleData -> ", scheduleData);
+
+        scheduleCreationModal();
 
         var schedule = {
             id: String(chance.guid()),
@@ -67,9 +69,9 @@ cal.on({
             dragBgColor: calendar.bgColor,
             borderColor: calendar.borderColor,
             location: scheduleData.location,
-            raw: {
-                class: scheduleData.raw['class']
-            },
+            // raw: {
+            //     class: scheduleData.raw['class']
+            // },
             state: scheduleData.state
         };
 
@@ -174,8 +176,6 @@ function publishCalendar() {
     console.log("Get the list of schedule -> ", schedules);
 
     // TODO Send this information back to our servers for processing.
-
-    $("#scheduleCreationModal").modal();
 }
 
 function fillUpCalendarInitially() {
@@ -237,13 +237,57 @@ function updateRolesInModal() {
 
 function updateEmployeesInModal() {
     let employees = getListOfEmployees();
-    employees.forEach(function(value, index) {
+    employees.forEach(function (value, index) {
         let template = `<option value="${index}">${value}</option>`;
         $("#employees").append(template);
     });
     console.log("Employees fetched -> ", employees);
 }
 
+function scheduleCreationModal() {
+    console.log("custom event creation modal was called.");
+    $("#scheduleCreationModal").modal("show");
+
+    function createEventHandler() {
+        // get the data from modal
+        let name = $("#eventName").val();
+        let role = $("#roles").val();
+        let employee = $("#employees").val();
+        let startDatetime = new Date("October 21, 2020 11:13:00");
+        let endDatetime = new Date("October 21, 2020 11:20:00");
+        let isAllDay = $("#isAllDay").checked;
+
+        // create schedule object
+        var schedule = {
+            id: String(chance.guid()),
+            title: name,
+            isAllDay: isAllDay,
+            start: startDatetime,
+            end: endDatetime,
+            category: isAllDay ? 'allday' : 'time',
+            dueDateClass: '',
+            color: calendar.color,
+            bgColor: calendar.bgColor,
+            dragBgColor: calendar.bgColor,
+            borderColor: calendar.borderColor,
+            location: '',
+            // raw: {
+            //     class: scheduleData.raw['class']
+            // },
+            state: 'busy'
+        };
+
+        // Create a schedule in calednar
+        cal.createSchedules([schedule]);
+        cal.render(true);   // Render the new schedule on calendar.
+
+        // Close the modal once everything is done
+        $("#scheduleCreationModal").modal("hide");
+    }
+
+    // Add event handler for taking values from Creation Modal and creating a schedule
+    $("#createScheduleButton").on("click", createEventHandler);
+}
 
 // Callbacks for Next, Prev and Today buttons
 document.getElementById("calNext").addEventListener("click", calendarNext);
