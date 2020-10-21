@@ -78,10 +78,10 @@ cal.on({
         cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
     },
 
-    'clickSchedule': function(event) {
+    'clickSchedule': function (event) {
         let schedule = event.schedule;
         console.log("A schedule was clicked -> ", schedule);
-        
+
         scheduleDetailPopup(schedule);
     }
 });
@@ -327,3 +327,39 @@ updateCurrentlyRenderedRange();
 fillUpCalendarInitially();
 updateRolesInModal();
 updateEmployeesInModal();
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Running....");
+    $('#startDatetimePicker').datetimepicker(
+        {
+            sideBySide: true,
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-arrow-up",
+                down: "fa fa-arrow-down",
+                previous: "fa fa-chevron-left",
+                next: "fa fa-chevron-right",
+                today: "fa fa-clock-o",
+                clear: "fa fa-trash-o"
+            }
+        }
+    );
+
+    $('#endDatetimePicker').datetimepicker(
+        {
+            sideBySide: true,
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-arrow-up",
+                down: "fa fa-arrow-down",
+                previous: "fa fa-chevron-left",
+                next: "fa fa-chevron-right",
+                today: "fa fa-clock-o",
+                clear: "fa fa-trash-o"
+            }
+        }
+    );
+
+});

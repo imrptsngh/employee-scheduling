@@ -142,20 +142,22 @@
 
 
                     <!-- Start time -->
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Start time</label>
-                        <input type="text" class="form-control" id="eventName" aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted">Enter the name of the event that will be
-                            shown on the calendar.</small>
+                    <div class="input-group date mb-3" id='startDatetimePicker'>
+                        <input type="text" class="form-control" placeholder="Start Date" aria-describedby="startTime">
+                        <div class="input-group-append input-group-addon">
+                            <button class="btn btn-outline-secondary" type="button" id="startTime"><i
+                                    class="fa fa-calendar"></i></button>
+                        </div>
                     </div>
 
 
                     <!-- End time -->
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">End time</label>
-                        <input type="text" class="form-control" id="eventName" aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted">Enter the name of the event that will be
-                            shown on the calendar.</small>
+                    <div class="input-group date mb-3" id='endDatetimePicker'>
+                        <input type="text" class="form-control" placeholder="End Date" aria-describedby="endTime">
+                        <div class="input-group-append input-group-addon">
+                            <button class="btn btn-outline-secondary" type="button" id="endTime"><i
+                                    class="fa fa-calendar"></i></button>
+                        </div>
                     </div>
 
                     <div class="form-group form-check">
@@ -196,44 +198,6 @@
         </div>
     </div>
 
-
-    <div class="container">
-        <div class="row">
-
-            <div class="col-sm-6">
-                <div class="input-group date mb-3" id='datetimepicker1'>
-                    <input type="text" class="form-control" placeholder="Start Date" aria-describedby="button-addon2">
-                    <div class="input-group-append input-group-addon">
-                      <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-calendar"></i></button>
-                    </div>
-                  </div>
-
-            </div>
-
-            <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded", function () {
-                    console.log("Running....");
-                    $('#datetimepicker1').datetimepicker(
-                        {
-                            sideBySide: true,
-                            icons: {
-                                time: "fa fa-clock-o",
-                                date: "fa fa-calendar",
-                                up: "fa fa-arrow-up",
-                                down: "fa fa-arrow-down",
-                                previous: "fa fa-chevron-left",
-                                next: "fa fa-chevron-right",
-                                today: "fa fa-clock-o",
-                                clear: "fa fa-trash-o"
-                            }
-                        }
-                    );
-                });
-
-
-            </script>
-        </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
