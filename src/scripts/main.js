@@ -52,30 +52,7 @@ cal.on({
 
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
-        console.log("before create schedule, scheduleData -> ", scheduleData);
-
         scheduleCreationModal();
-
-        var schedule = {
-            id: String(chance.guid()),
-            title: scheduleData.title,
-            isAllDay: scheduleData.isAllDay,
-            start: scheduleData.start,
-            end: scheduleData.end,
-            category: scheduleData.isAllDay ? 'allday' : 'time',
-            dueDateClass: '',
-            color: calendar.color,
-            bgColor: calendar.bgColor,
-            dragBgColor: calendar.bgColor,
-            borderColor: calendar.borderColor,
-            location: scheduleData.location,
-            // raw: {
-            //     class: scheduleData.raw['class']
-            // },
-            state: scheduleData.state
-        };
-
-        cal.createSchedules([schedule]);
     },
 
     // This gets called when a schedule is updated.
@@ -255,7 +232,7 @@ function scheduleCreationModal() {
         let employee = $("#employees").val();
         let startDatetime = new Date("October 21, 2020 11:13:00");
         let endDatetime = new Date("October 21, 2020 11:20:00");
-        let isAllDay = $("#isAllDay").checked;
+        let isAllDay = $("#isAllDay").is(":checked");
 
         // create schedule object
         var schedule = {
@@ -276,6 +253,8 @@ function scheduleCreationModal() {
             // },
             state: 'busy'
         };
+
+        console.log("Creating schedule -> ", schedule);
 
         // Create a schedule in calednar
         cal.createSchedules([schedule]);
