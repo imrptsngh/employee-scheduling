@@ -17,7 +17,7 @@ let cal;
 cal = new Calendar('#calendar', {
     defaultView: 'month',
     useCreationPopup: false,
-    useDetailPopup: true,
+    useDetailPopup: false,
     template: {
 
         // Title to be shown in the calendar for a limited timed event
@@ -52,7 +52,9 @@ cal.on({
 
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
-        scheduleCreationModal();
+        console.log("beforeCreateSchedule: scheduleData -> ", scheduleData);
+
+        scheduleCreationModal(scheduleData.start, scheduleData.end);
     },
 
     // This gets called when a schedule is updated.
@@ -75,6 +77,13 @@ cal.on({
         console.log('beforeDeleteSchedule', e);
         cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
     },
+
+    'clickSchedule': function(event) {
+        let schedule = event.schedule;
+        console.log("A schedule was clicked -> ", schedule);
+        
+        scheduleDetailPopup(schedule);
+    }
 });
 
 
@@ -221,17 +230,23 @@ function updateEmployeesInModal() {
     console.log("Employees fetched -> ", employees);
 }
 
-function scheduleCreationModal() {
+function scheduleCreationModal(startDate, endDate) {
     console.log("custom event creation modal was called.");
     $("#scheduleCreationModal").modal("show");
 
+    function clearModalData() {
+        $("#eventName").val("");
+        $("#roles").val("");
+        $("#employees").val("");
+        $("#isAllDay").is(":checked")
+    }
+
     function createEventHandler() {
+
         // get the data from modal
         let name = $("#eventName").val();
         let role = $("#roles").val();
         let employee = $("#employees").val();
-        let startDatetime = new Date("October 21, 2020 11:13:00");
-        let endDatetime = new Date("October 21, 2020 11:20:00");
         let isAllDay = $("#isAllDay").is(":checked");
 
         // create schedule object
@@ -239,8 +254,8 @@ function scheduleCreationModal() {
             id: String(chance.guid()),
             title: name,
             isAllDay: isAllDay,
-            start: startDatetime,
-            end: endDatetime,
+            start: startDate,
+            end: endDate,
             category: isAllDay ? 'allday' : 'time',
             dueDateClass: '',
             color: calendar.color,
@@ -262,11 +277,28 @@ function scheduleCreationModal() {
 
         // Close the modal once everything is done
         $("#scheduleCreationModal").modal("hide");
+
+        clearModalData();
     }
 
     // Add event handler for taking values from Creation Modal and creating a schedule
     $("#createScheduleButton").on("click", createEventHandler);
 }
+
+
+function scheduleDetailPopup(schedule) {
+    $("#scheduleDetailModal").modal("show");
+
+    let start = moment.utc(schedule.start.toUTCString()).format("Do MMM, YYYY LT");
+    let end = moment.utc(schedule.end.toUTCString()).format("Do MMM, YYYY LT");
+
+    let template = `<p>Schedule Details</p><p><b>Start date</b>: ${start}</p><p><b>End date</b>: ${end}</p>`;
+
+    // Set the title
+    $("#scheduleTitle").text(schedule.title);
+    $("#scheduleDetailModalBody").html(template);
+}
+
 
 // Callbacks for Next, Prev and Today buttons
 document.getElementById("calNext").addEventListener("click", calendarNext);
