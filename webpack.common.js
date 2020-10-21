@@ -11,7 +11,7 @@ module.exports = {
   mode: 'development',
   entry: {
     main: './src/index.js',
-    vendor: './src/vendor.js'
+    // vendor: './src/vendor.js'
   },
   module: {
     rules: [
