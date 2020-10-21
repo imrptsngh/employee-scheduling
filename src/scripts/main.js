@@ -1,13 +1,13 @@
 import Calendar from 'tui-calendar';
 import moment from 'moment';
 import Chance from 'chance';
-
+import datetimepicker from 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
 
 // All required CSS files
 import "tui-calendar/dist/tui-calendar.css";
 import 'tui-date-picker/dist/tui-date-picker.css';
 import 'tui-time-picker/dist/tui-time-picker.css';
-
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 // To generate random IDs for schedules
 let chance = new Chance();
@@ -169,14 +169,13 @@ function monthlyCalendarView() {
     currentCalView.innerHTML = 'Monthly <span class="caret"></span>';
 }
 
-function listOfSchedules() {
+function publishCalendar() {
     let schedules = cal._controller.schedules.items;
-    console.log("Get the list of schedule.");
-    for (let x in schedules) {
-        document.getElementById("scheduleList").innerHTML = x + "<br>";
-    }
-    console.log(schedules);
+    console.log("Get the list of schedule -> ", schedules);
+    
     // TODO Send this information back to our servers for processing.
+
+    $("#scheduleCreationModal").modal();
 }
 
 function fillUpCalendarInitially() {
@@ -191,6 +190,33 @@ function fillUpCalendarInitially() {
     //         cal.createSchedules(data);
     //         cal.render(true);
     //     });
+
+}
+
+function getListOfRoles() {
+    // TODO Send a request to the server to get the list of roles
+    // fetch('http://example.com/movies.json')
+    //     .then(response => response.json())
+    //     .then(function(data) {
+    //         console.log("Received data from server: ");
+    //         console.log(data);
+
+    //         cal.createSchedules(data);
+    //         cal.render(true);
+    //     });
+
+    let roles = ['Role A', 'Role B', 'Role C', 'Role D'];
+
+    return roles;
+}
+
+function updateRolesInModal() {
+    let roles = getListOfRoles();
+    roles.forEach(function(value, index) {
+        let template = `<option value="${index}">${value}</option>`;
+        $("#roles").append(template);
+    });
+    console.log("Roles fetched -> ", roles);
 }
 
 
@@ -205,8 +231,10 @@ document.getElementById("weeklyCalView").addEventListener("click", weeklyCalenda
 document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
 
 // Publish Button callback
-document.getElementById("getScheduleBtn").addEventListener("click", listOfSchedules);
+document.getElementById("publishCalendar").addEventListener("click", publishCalendar);
+
 
 // Update the text for the currently rendered range
 updateCurrentlyRenderedRange();
 fillUpCalendarInitially();
+updateRolesInModal();
