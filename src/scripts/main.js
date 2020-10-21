@@ -46,7 +46,7 @@ cal = new Calendar('#calendar', {
 
 // Callbacks for events that happen on the calendar
 cal.on({
-    'clickSchedule': function(e) {
+    'clickSchedule': function (e) {
         console.log('clickSchedule callback', e);
     },
 
@@ -172,7 +172,7 @@ function monthlyCalendarView() {
 function publishCalendar() {
     let schedules = cal._controller.schedules.items;
     console.log("Get the list of schedule -> ", schedules);
-    
+
     // TODO Send this information back to our servers for processing.
 
     $("#scheduleCreationModal").modal();
@@ -210,13 +210,38 @@ function getListOfRoles() {
     return roles;
 }
 
+function getListOfEmployees() {
+    // TODO Send a request to the server to get the list of employees
+    // fetch('http://example.com/movies.json')
+    //     .then(response => response.json())
+    //     .then(function(data) {
+    //         console.log("Received data from server: ");
+    //         console.log(data);
+
+    //         cal.createSchedules(data);
+    //         cal.render(true);
+    //     });
+
+    let employees = ['Emp A', 'Emp B', 'Emp C', 'Emp D'];
+    return employees;
+}
+
 function updateRolesInModal() {
     let roles = getListOfRoles();
-    roles.forEach(function(value, index) {
+    roles.forEach(function (value, index) {
         let template = `<option value="${index}">${value}</option>`;
         $("#roles").append(template);
     });
     console.log("Roles fetched -> ", roles);
+}
+
+function updateEmployeesInModal() {
+    let employees = getListOfEmployees();
+    employees.forEach(function(value, index) {
+        let template = `<option value="${index}">${value}</option>`;
+        $("#employees").append(template);
+    });
+    console.log("Employees fetched -> ", employees);
 }
 
 
@@ -238,3 +263,4 @@ document.getElementById("publishCalendar").addEventListener("click", publishCale
 updateCurrentlyRenderedRange();
 fillUpCalendarInitially();
 updateRolesInModal();
+updateEmployeesInModal();
