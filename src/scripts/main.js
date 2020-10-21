@@ -297,6 +297,16 @@ function scheduleDetailPopup(schedule) {
     // Set the title
     $("#scheduleTitle").text(schedule.title);
     $("#scheduleDetailModalBody").html(template);
+
+    function cloneSchedule() {
+        let newSchedule = schedule;
+        newSchedule.id = String(chance.guid());
+        cal.createSchedules([newSchedule]);
+        cal.render(true);
+        $("#scheduleDetailModal").modal("hide");
+    }
+    $("#cloneScheduleButton").on("click", cloneSchedule);
+
 }
 
 
@@ -312,7 +322,6 @@ document.getElementById("monthlyCalView").addEventListener("click", monthlyCalen
 
 // Publish Button callback
 document.getElementById("publishCalendar").addEventListener("click", publishCalendar);
-
 
 // Update the text for the currently rendered range
 updateCurrentlyRenderedRange();
