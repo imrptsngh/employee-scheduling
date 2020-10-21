@@ -4,6 +4,11 @@ This application is supposed to be used with Blixt Project for managing employee
 
 # Usage
 
+## Use the given version of NodeJS
+```bash
+$ nvm use
+```
+
 ## Installing deps
 ```bash
 $ npm install
