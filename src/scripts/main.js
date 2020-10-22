@@ -230,18 +230,63 @@ function updateEmployeesInModal() {
     console.log("Employees fetched -> ", employees);
 }
 
+function createDatetimePicker(selector, defaultDate) {
+    $(selector).datetimepicker(
+        {
+            sideBySide: true,
+            // defaultDate: defaultDate,
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-arrow-up",
+                down: "fa fa-arrow-down",
+                previous: "fa fa-chevron-left",
+                next: "fa fa-chevron-right",
+                today: "fa fa-clock-o",
+                clear: "fa fa-trash-o"
+            }
+        }
+    );
+}
+
 function scheduleCreationModal(startDate, endDate) {
-    console.log("custom event creation modal was called.");
+    console.log("Schedule start date time -> ", startDate.getTime());
+    console.log("Scheedule end datetime -> ", endDate.getTime());
+
     $("#scheduleCreationModal").modal("show");
+
+    // start Datetime picker instance
+    if ($('#startDatetimePicker').data("DateTimePicker")) {
+        // Update the datetime picker if it exists
+        $('#startDatetimePicker').data("DateTimePicker").date(new Date(startDate.getTime()));
+    }
+    else {
+        // Create a new datetime picker instance
+        $('#startDatetimePicker').datetimepicker({
+            date: new Date(startDate.getTime())
+        });
+    }
+
+    // end Datetime picker instance
+    if ($('#endDatetimePicker').data("DateTimePicker")) {
+        // Update the datetime picker if it exists
+        $('#endDatetimePicker').data("DateTimePicker").date(new Date(endDate.getTime()));
+    }
+    else {
+        // Create a new datetime picker instance
+        $('#endDatetimePicker').datetimepicker({
+            date: new Date(endDate.getTime())
+        });
+    }
+
 
     function clearModalData() {
         $("#eventName").val("");
         $("#roles").val("");
         $("#employees").val("");
-        $("#isAllDay").is(":checked")
     }
 
-    function createEventHandler() {
+    function submitHandler() {
 
         // get the data from modal
         let name = $("#eventName").val();
@@ -282,7 +327,7 @@ function scheduleCreationModal(startDate, endDate) {
     }
 
     // Add event handler for taking values from Creation Modal and creating a schedule
-    $("#createScheduleButton").on("click", createEventHandler);
+    $("#createScheduleButton").on("click", submitHandler);
 }
 
 
@@ -309,57 +354,25 @@ function scheduleDetailPopup(schedule) {
 
 }
 
-// Callbacks for Next, Prev and Today buttons
-document.getElementById("calNext").addEventListener("click", calendarNext);
-document.getElementById("calPrev").addEventListener("click", calendarPrevious);
-document.getElementById("calToday").addEventListener("click", calendarToday);
-
-// Callbacks for changing calendar view
-document.getElementById("dailyCalView").addEventListener("click", dailyCalendarView);
-document.getElementById("weeklyCalView").addEventListener("click", weeklyCalendarView);
-document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
-
-// Publish Button callback
-document.getElementById("publishCalendar").addEventListener("click", publishCalendar);
-
-// Update the text for the currently rendered range
-updateCurrentlyRenderedRange();
-fillUpCalendarInitially();
-updateRolesInModal();
-updateEmployeesInModal();
-
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Running....");
-    $('#startDatetimePicker').datetimepicker(
-        {
-            sideBySide: true,
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-arrow-up",
-                down: "fa fa-arrow-down",
-                previous: "fa fa-chevron-left",
-                next: "fa fa-chevron-right",
-                today: "fa fa-clock-o",
-                clear: "fa fa-trash-o"
-            }
-        }
-    );
 
-    $('#endDatetimePicker').datetimepicker(
-        {
-            sideBySide: true,
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-arrow-up",
-                down: "fa fa-arrow-down",
-                previous: "fa fa-chevron-left",
-                next: "fa fa-chevron-right",
-                today: "fa fa-clock-o",
-                clear: "fa fa-trash-o"
-            }
-        }
-    );
+    // Callbacks for Next, Prev and Today buttons
+    document.getElementById("calNext").addEventListener("click", calendarNext);
+    document.getElementById("calPrev").addEventListener("click", calendarPrevious);
+    document.getElementById("calToday").addEventListener("click", calendarToday);
+
+    // Callbacks for changing calendar view
+    document.getElementById("dailyCalView").addEventListener("click", dailyCalendarView);
+    document.getElementById("weeklyCalView").addEventListener("click", weeklyCalendarView);
+    document.getElementById("monthlyCalView").addEventListener("click", monthlyCalendarView);
+
+    // Publish Button callback
+    document.getElementById("publishCalendar").addEventListener("click", publishCalendar);
+
+    // Update the text for the currently rendered range
+    updateCurrentlyRenderedRange();
+    fillUpCalendarInitially();
+    updateRolesInModal();
+    updateEmployeesInModal();
 
 });
