@@ -53,8 +53,8 @@ cal.on({
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
         console.log("beforeCreateSchedule: scheduleData -> ", scheduleData);
-
         scheduleCreationModal(scheduleData.start, scheduleData.end);
+        scheduleData.guide.clearGuideElement();
     },
 
     // This gets called when a schedule is updated.
