@@ -250,9 +250,6 @@ function createDatetimePicker(selector, defaultDate) {
 }
 
 function scheduleCreationModal(startDate, endDate) {
-    console.log("Schedule start date time -> ", startDate.getTime());
-    console.log("Scheedule end datetime -> ", endDate.getTime());
-
     $("#scheduleCreationModal").modal("show");
 
     // start Datetime picker instance
@@ -327,6 +324,7 @@ function scheduleCreationModal(startDate, endDate) {
     }
 
     // Add event handler for taking values from Creation Modal and creating a schedule
+    $("#createScheduleButton").off('click');
     $("#createScheduleButton").on("click", submitHandler);
 }
 
