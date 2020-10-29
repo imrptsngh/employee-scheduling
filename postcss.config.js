@@ -10,11 +10,11 @@ module.exports = (ctx) => {
             cssnano({
               preset: 'default'
             }),
-            purgecss({
-              content: ['./**/*.html'],
-              keyframes: true,
-              defaultExtractor: (content) => content.match(/[A-z0-9-:/]+/g)
-            })
+            // purgecss({
+            //   content: ['./**/*.html'],
+            //   keyframes: true,
+            //   defaultExtractor: (content) => content.match(/[A-z0-9-:/]+/g)
+            // })
           ]
         : [])
     ]
