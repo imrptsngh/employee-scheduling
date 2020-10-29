@@ -348,6 +348,8 @@ function scheduleDetailPopup(schedule) {
         cal.render(true);
         $("#scheduleDetailModal").modal("hide");
     }
+
+    $("#cloneScheduleButton").off("click");
     $("#cloneScheduleButton").on("click", cloneSchedule);
 
 }
