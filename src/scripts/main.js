@@ -5,9 +5,8 @@ import datetimepicker from 'pc-bootstrap4-datetimepicker/build/js/bootstrap-date
 
 // All required CSS files
 import "tui-calendar/dist/tui-calendar.css";
-import 'tui-date-picker/dist/tui-date-picker.css';
-import 'tui-time-picker/dist/tui-time-picker.css';
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
+
 
 // To generate random IDs for schedules
 let chance = new Chance();
