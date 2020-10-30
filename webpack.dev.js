@@ -8,6 +8,11 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.html$/,
         use: [
           {
@@ -40,6 +45,9 @@ module.exports = merge(common, {
         ]
       }
     ]
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
   },
   output: {
     filename: '[name].js',

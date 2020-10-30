@@ -9,6 +9,7 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 
 // Created by us
 import { cal } from "./calendar";
+import { helloWorld } from "./hello.ts";
 
 let chance = new Chance();
 
@@ -124,5 +125,5 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update the text for the currently rendered range
     updateCurrentlyRenderedRange();
     fillUpCalendarInitially();
-
+    helloWorld("Apoorva");
 });
