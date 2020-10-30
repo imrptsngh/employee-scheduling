@@ -1,4 +1,10 @@
 import {cal} from './calendar';
+import * as moment from 'moment';
+import * as Chance from 'chance';
+import 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
+
+// import * as $ from 'jquery';
+let chance = new Chance();
 
 export function getListOfRoles() {
     // TODO Send a request to the server to get the list of roles
@@ -52,7 +58,7 @@ export function updateEmployeesInModal() {
 }
 
 export function createDatetimePicker(selector, defaultDate) {
-    $(selector).datetimepicker(
+    ($(selector) as any).datetimepicker(
         {
             sideBySide: true,
             // defaultDate: defaultDate,
@@ -71,7 +77,7 @@ export function createDatetimePicker(selector, defaultDate) {
 }
 
 export function scheduleCreationModal(startDate, endDate) {
-    $("#scheduleCreationModal").modal("show");
+    ($("#scheduleCreationModal") as any).modal("show");
 
     // start Datetime picker instance
     if ($('#startDatetimePicker').data("DateTimePicker")) {
@@ -80,7 +86,7 @@ export function scheduleCreationModal(startDate, endDate) {
     }
     else {
         // Create a new datetime picker instance
-        $('#startDatetimePicker').datetimepicker({
+        ($('#startDatetimePicker') as any).datetimepicker({
             date: new Date(startDate.getTime())
         });
     }
@@ -92,7 +98,7 @@ export function scheduleCreationModal(startDate, endDate) {
     }
     else {
         // Create a new datetime picker instance
-        $('#endDatetimePicker').datetimepicker({
+        ($('#endDatetimePicker') as any).datetimepicker({
             date: new Date(endDate.getTime())
         });
     }
@@ -121,10 +127,10 @@ export function scheduleCreationModal(startDate, endDate) {
             end: endDate,
             category: isAllDay ? 'allday' : 'time',
             dueDateClass: '',
-            color: calendar.color,
-            bgColor: calendar.bgColor,
-            dragBgColor: calendar.bgColor,
-            borderColor: calendar.borderColor,
+            // color: calendar.color,
+            // bgColor: calendar.bgColor,
+            // dragBgColor: calendar.bgColor,
+            // borderColor: calendar.borderColor,
             location: '',
             // raw: {
             //     class: scheduleData.raw['class']
@@ -139,7 +145,7 @@ export function scheduleCreationModal(startDate, endDate) {
         cal.render(true);   // Render the new schedule on calendar.
 
         // Close the modal once everything is done
-        $("#scheduleCreationModal").modal("hide");
+        ($("#scheduleCreationModal") as any).modal("hide");
 
         clearModalData();
     }
@@ -150,7 +156,7 @@ export function scheduleCreationModal(startDate, endDate) {
 }
 
 export function scheduleDetailPopup(schedule) {
-    $("#scheduleDetailModal").modal("show");
+    ($("#scheduleDetailModal") as any).modal("show");
 
     let start = moment.utc(schedule.start.toUTCString()).format("Do MMM, YYYY LT");
     let end = moment.utc(schedule.end.toUTCString()).format("Do MMM, YYYY LT");
@@ -166,7 +172,7 @@ export function scheduleDetailPopup(schedule) {
         newSchedule.id = String(chance.guid());
         cal.createSchedules([newSchedule]);
         cal.render(true);
-        $("#scheduleDetailModal").modal("hide");
+        ($("#scheduleDetailModal") as any).modal("hide");
     }
 
     $("#cloneScheduleButton").off("click");
@@ -178,3 +184,10 @@ document.addEventListener("DOMContentLoaded", function () {
     updateRolesInModal();
     updateEmployeesInModal();
 });
+
+
+class Modal {
+    constructor() {
+        console.log("Constructing a Modal object");
+    }
+}

@@ -12,6 +12,10 @@ module.exports = merge(common, {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      { 
+        test: /\.js$/, 
+        loader: "source-map-loader" 
+      },
       {
         test: /\.html$/,
         use: [
@@ -52,5 +56,9 @@ module.exports = merge(common, {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
-  }
+  },
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: "source-map",
+
+
 });

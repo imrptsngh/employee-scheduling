@@ -1,8 +1,7 @@
 import '../index.html';
-import Calendar from 'tui-calendar';
-import moment from 'moment';
-import Chance from 'chance';
-import datetimepicker from 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
+import * as moment from 'moment';
+import * as Chance from 'chance';
+
 
 // All required CSS files
 import "tui-calendar/dist/tui-calendar.css";
@@ -10,7 +9,6 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 
 // Created by us
 import { cal } from "./calendar";
-import { helloWorld } from "./hello.ts";
 
 let chance = new Chance();
 
@@ -126,5 +124,4 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update the text for the currently rendered range
     updateCurrentlyRenderedRange();
     fillUpCalendarInitially();
-    helloWorld("Apoorva");
 });

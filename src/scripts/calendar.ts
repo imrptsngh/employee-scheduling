@@ -1,6 +1,9 @@
+// import Calendar, { ISchedule, TZDate } from 'tui-calendar';
+// TODO Unable to import ISchedule and TZDate fix it.
 import Calendar from 'tui-calendar';
-import moment from 'moment';
+import * as moment from 'moment';
 import {scheduleCreationModal, scheduleDetailPopup} from './modal';
+
 
 // Creating calendar object
 var cal;
@@ -11,13 +14,13 @@ cal = new Calendar('#calendar', {
     template: {
 
         // Title to be shown in the calendar for a limited timed event
-        time: function (schedule) {
+        time: function (schedule: any) {
             console.log("time template was called");
 
             let html = [];
 
             // Add time of the event
-            let start = moment(schedule.start.toUTCString());
+            let start = moment((schedule.start as any).toUTCString());
             html.push(start.format('HH:mm'));
 
             // Add title of the event
@@ -36,10 +39,6 @@ cal = new Calendar('#calendar', {
 
 // Callbacks for events that happen on the calendar
 cal.on({
-    'clickSchedule': function (e) {
-        console.log('clickSchedule callback', e);
-    },
-
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
         console.log("beforeCreateSchedule: scheduleData -> ", scheduleData);
