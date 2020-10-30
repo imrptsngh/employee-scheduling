@@ -1,3 +1,4 @@
+import '../index.html';
 import Calendar from 'tui-calendar';
 import moment from 'moment';
 import Chance from 'chance';
