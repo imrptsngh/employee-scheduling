@@ -2,7 +2,7 @@
 // TODO Unable to import ISchedule and TZDate fix it.
 import Calendar, {ISchedule, TZDate} from 'tui-calendar';
 import * as moment from 'moment';
-import {CreationModal, DetailModal, scheduleDetailPopup} from './modal';
+import {CreationModal, DetailModal} from './modal';
 
 // Creating calendar object
 var cal;
