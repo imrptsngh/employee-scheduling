@@ -260,9 +260,10 @@ export class CreationModal {
             // dragBgColor: calendar.bgColor,
             // borderColor: calendar.borderColor,
             location: '',
-            // raw: {
-            //     class: scheduleData.raw['class']
-            // },
+            raw: {
+                role: this.r.get("role"),
+                employee: this.r.get("employee"),
+            },
             state: 'busy'
         };
 
@@ -344,6 +345,12 @@ export class DetailModal {
                             <p>
                                 <b>End Date: </b> {{ endDate }}
                             </p>
+                            <p>
+                                <b>Role: </b> {{ role }}
+                            </p>
+                            <p>
+                                <b>Employee: </b> {{ employee }}
+                            </p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -374,6 +381,8 @@ export class DetailModal {
                 eventName: schedule.title,
                 startDate: startDateTime,
                 endDate: endDateTime,
+                role: schedule.raw.role,
+                employee: schedule.raw.employee,
             }
         });
         console.debug("Initialized Ractive.js");
@@ -559,9 +568,9 @@ export class EditModal {
         this.title = "Edit event";
         this.eventName = schedule.title;
         this.roles = ["Role A", "Role B", "Role C", "Role D"];
-        this.role = this.roles[0];      // TODO Get role from schedule
+        this.role = this.schedule.raw.role as string;      // Get role from schedule
         this.employees = ["Emp A", "Emp B"];
-        this.employee = this.employees[0];      // TODO Get employee from schedule
+        this.employee = this.schedule.raw.employee as string;      // Get employee from schedule
         this.allDay = schedule.isAllDay;
 
         // Initialize with Ractive.js
@@ -640,9 +649,10 @@ export class EditModal {
             // dragBgColor: calendar.bgColor,
             // borderColor: calendar.borderColor,
             location: '',
-            // raw: {
-            //     class: scheduleData.raw['class']
-            // },
+            raw: {
+                role: this.r.get("role"),
+                employee: this.r.get("employee"),
+            },
             state: 'busy'
         };
 
