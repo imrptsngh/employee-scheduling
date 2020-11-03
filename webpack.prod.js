@@ -17,6 +17,11 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.html$/,
         use: [
           {
@@ -115,6 +120,9 @@ module.exports = merge(common, {
     // }),
     // new OfflinePlugin()
   ],
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
+  },
   output: {
     filename: '[name].[contentHash].js',
     path: path.resolve(__dirname, 'dist')
