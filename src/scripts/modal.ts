@@ -214,9 +214,17 @@ export class CreationModal {
         this.modalSelector.modal("show");
     }
 
+    cleanUp(): void {
+        jq("#"+this.targetID).remove();
+        jq("#"+this.templateID).remove();
+        console.debug("Cleaned up template and target HTML content.");
+    }
+
     close(): void {
         // Implement functionality to close the modal here
         this.modalSelector.modal("hide");
+        // perform cleanup, remove HTML element from body
+        this.cleanUp();
     }
 
     clearFields(): void {
@@ -390,8 +398,15 @@ export class DetailModal {
         this.modalSelector.modal("show");
     }
 
+    cleanUp(): void {
+        jq("#"+this.targetID).remove();
+        jq("#"+this.templateID).remove();
+        console.debug("Cleaned up template and target HTML content.");
+    }
+
     close(): void {
         this.modalSelector.modal("hide");
+        this.cleanUp();
     }
 
     cloneEvent(): void {
@@ -580,9 +595,16 @@ export class EditModal {
         this.modalSelector.modal("show");
     }
 
+    cleanUp(): void {
+        jq("#"+this.targetID).remove();
+        jq("#"+this.templateID).remove();
+        console.debug("Cleaned up template and target HTML content.");
+    }
+
     close(): void {
         // Implement functionality to close the modal here
         this.modalSelector.modal("hide");
+        this.cleanUp();
     }
 
     clearFields(): void {
