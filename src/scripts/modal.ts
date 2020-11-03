@@ -503,8 +503,8 @@ export class DetailModal {
         jq("body").append(this.target);
 
         // Parse startDate and endDate
-        let startDateTime = moment.utc((schedule.start as TZDate).toUTCString()).format("Do MMM, YYYY LT");
-        let endDateTime = moment.utc((schedule.end as TZDate).toUTCString()).format("Do MMM, YYYY LT");
+        let startDateTime = moment((schedule.start as TZDate).toDate()).format("Do MMM, YYYY LT");
+        let endDateTime = moment((schedule.end as TZDate).toDate()).format("Do MMM, YYYY LT");
 
         this.r = new Ractive({
             target: `#${this.targetID}`,
