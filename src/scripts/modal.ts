@@ -449,6 +449,7 @@ export class DetailModal {
     modalID: string;
     modalSelector: any;
     ch: any;    // Instance variable for Chance
+    schedule: ISchedule;
 
     r: Ractive;
 
@@ -458,6 +459,7 @@ export class DetailModal {
         this.generatedID = this.ch.guid();
         this.templateID = "template-"+this.generatedID;
         this.modalID = "modal-"+this.generatedID;
+        this.schedule = schedule;
 
         this.template = `
         <script id="${this.templateID}" type="text/ractive">
@@ -480,8 +482,8 @@ export class DetailModal {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="cloneScheduleButton">Clone</button>
-                            <button type="button" class="btn btn-primary" id="editScheduleButton">Edit</button>
+                            <button type="button" class="btn btn-primary" on-click="@.fire('cloneEvent')">Clone</button>
+                            <button type="button" class="btn btn-primary" on-click="@.fire('editEvent')">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -512,6 +514,9 @@ export class DetailModal {
         console.debug("Initialized Ractive.js");
 
         this.modalSelector = jq("#"+this.modalID);
+
+        this.r.on('cloneEvent', () => this.cloneEvent());
+        this.r.on('editEvent', () => console.log("Edit event under construction"));
     }
 
     open(): void {
@@ -523,6 +528,11 @@ export class DetailModal {
     }
 
     cloneEvent(): void {
-        // TODO Implement the code to clone the selected event
+        // Implement the code to clone the selected event
+        let newSchedule = this.schedule;
+        newSchedule.id = String(this.ch.guid());
+        cal.createSchedules([newSchedule]);
+        cal.render(true);
+        this.close();
     }
 }
