@@ -2,7 +2,7 @@
 // TODO Unable to import ISchedule and TZDate fix it.
 import Calendar, {ISchedule, TZDate} from 'tui-calendar';
 import * as moment from 'moment';
-import {CreationModal, scheduleDetailPopup} from './modal';
+import {CreationModal, DetailModal, scheduleDetailPopup} from './modal';
 
 // Creating calendar object
 var cal;
@@ -70,8 +70,9 @@ cal.on({
     'clickSchedule': function (event) {
         let schedule = event.schedule;
         console.log("A schedule was clicked -> ", schedule);
-
-        scheduleDetailPopup(schedule);
+        let detailModal = new DetailModal(schedule);
+        detailModal.open();
+        // scheduleDetailPopup(schedule);
     }
 });
 

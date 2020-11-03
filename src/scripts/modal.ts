@@ -4,7 +4,7 @@ import * as chance from 'chance';
 import Ractive from "ractive";
 import 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
 import * as jq from 'jquery';
-import {TZDate} from "tui-calendar";
+import {ISchedule, TZDate} from "tui-calendar";
 
 export function getListOfRoles() {
     // TODO Send a request to the server to get the list of roles
@@ -437,4 +437,92 @@ export class CreationModal {
         }
     }
 
+}
+
+export class DetailModal {
+
+    template: string;
+    target: string;
+    templateID: string;
+    targetID: string;
+    generatedID: string;
+    modalID: string;
+    modalSelector: any;
+    ch: any;    // Instance variable for Chance
+
+    r: Ractive;
+
+    constructor(schedule: ISchedule) {
+
+        this.ch = new chance.Chance();
+        this.generatedID = this.ch.guid();
+        this.templateID = "template-"+this.generatedID;
+        this.modalID = "modal-"+this.generatedID;
+
+        this.template = `
+        <script id="${this.templateID}" type="text/ractive">
+            <div class="modal" id="${this.modalID}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scheduleTitle">{{ eventName }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <b>Start Date: </b> {{ startDate }}
+                            </p>
+                            <p>
+                                <b>End Date: </b> {{ endDate }}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="cloneScheduleButton">Clone</button>
+                            <button type="button" class="btn btn-primary" id="editScheduleButton">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        `;
+
+        this.target = `
+        <div id="${this.targetID}"></div>
+        `;
+
+        jq("body").append(this.template);
+        jq("body").append(this.target);
+
+        // Parse startDate and endDate
+        let startDateTime = moment.utc((schedule.start as TZDate).toUTCString()).format("Do MMM, YYYY LT");
+        let endDateTime = moment.utc((schedule.end as TZDate).toUTCString()).format("Do MMM, YYYY LT");
+
+        this.r = new Ractive({
+            target: `#${this.targetID}`,
+            template: `#${this.templateID}`,
+            data: {
+                eventName: schedule.title,
+                startDate: startDateTime,
+                endDate: endDateTime,
+            }
+        });
+        console.debug("Initialized Ractive.js");
+
+        this.modalSelector = jq("#"+this.modalID);
+    }
+
+    open(): void {
+        this.modalSelector.modal("show");
+    }
+
+    close(): void {
+        this.modalSelector.modal("hide");
+    }
+
+    cloneEvent(): void {
+        // TODO Implement the code to clone the selected event
+    }
 }
