@@ -278,7 +278,7 @@ export class CreationModal {
         
                             <!-- Start time -->
                             <div class="input-group date mb-3" id="${this.startDateTimePickerID}">
-                                <input type="text" class="form-control" placeholder="Start Date" aria-describedby="startTime">
+                                <input type="text" class="form-control" placeholder="Start Date" value="{{ startDate }}" aria-describedby="startTime">
                                 <div class="input-group-append input-group-addon">
                                     <button class="btn btn-outline-secondary" type="button" id="startTime"><i
                                             class="fa fa-calendar"></i></button>
@@ -375,19 +375,23 @@ export class CreationModal {
     }
 
     onSubmit(): void {
-        // Implement this function to create teh schedule event when the form is submitted
+        // Implement this function to create the schedule event when the form is submitted
 
         // get the data from modal
         let eventName = this.r.get("eventName");
         let isAllDay = this.r.get("allDay");
+
+        // Get the current date and time that is selected in the datetime picker
+        let startDateTime = this.startDateTimeSelector.data().date;
+        let endDateTime = this.endDateTimeSelector.data().date;
 
         // create schedule object
         let schedule = {
             id: String(this.ch.guid()),
             title: eventName,
             isAllDay: isAllDay,
-            start: this.startDate,
-            end: this.endDate,
+            start: startDateTime,
+            end: endDateTime,
             category: isAllDay ? 'allday' : 'time',
             dueDateClass: '',
             // color: calendar.color,
