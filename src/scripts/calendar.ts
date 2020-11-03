@@ -1,9 +1,8 @@
-// import Calendar, { ISchedule, TZDate } from 'tui-calendar';
-// TODO Unable to import ISchedule and TZDate fix it.
-import Calendar from 'tui-calendar';
-import * as moment from 'moment';
-import {scheduleCreationModal, scheduleDetailPopup} from './modal';
 
+// TODO Unable to import ISchedule and TZDate fix it.
+import Calendar, {ISchedule, TZDate} from 'tui-calendar';
+import * as moment from 'moment';
+import {CreationModal, scheduleDetailPopup} from './modal';
 
 // Creating calendar object
 var cal;
@@ -14,13 +13,13 @@ cal = new Calendar('#calendar', {
     template: {
 
         // Title to be shown in the calendar for a limited timed event
-        time: function (schedule: any) {
+        time: function (schedule: ISchedule) {
             console.log("time template was called");
 
             let html = [];
 
             // Add time of the event
-            let start = moment((schedule.start as any).toUTCString());
+            let start = moment((schedule.start as TZDate).toUTCString());
             html.push(start.format('HH:mm'));
 
             // Add title of the event
@@ -42,7 +41,8 @@ cal.on({
     // This gets called when a schedule is created.
     'beforeCreateSchedule': function (scheduleData) {
         console.log("beforeCreateSchedule: scheduleData -> ", scheduleData);
-        scheduleCreationModal(scheduleData.start, scheduleData.end);
+        let modal = new CreationModal(scheduleData.start, scheduleData.end);
+        modal.open();
         scheduleData.guide.clearGuideElement();
     },
 
