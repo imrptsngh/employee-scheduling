@@ -31,7 +31,7 @@ export class MyCalendar {
             <!-- Publish schedule button -->
             <div class="row mt-2">
                 <div class="col-sm">
-                    <button type="button" class="btn btn-secondary float-right" id="publishCalendar">Publish
+                    <button type="button" class="btn btn-secondary float-right" on-click="@.fire('publishCalendar')">Publish
                         Schedule</button>
                 </div>
             </div>
@@ -190,8 +190,14 @@ export class MyCalendar {
         this.r.on("dailyCalView", () => this.setDailyView());
         this.r.on("weeklyCalView", () => this.setWeeklyView());
         this.r.on("monthCalView", () => this.setMonthlyView());
-        this.r.on("publishCalendar", () => console.log("Publish calendar button still under construction"));
+        this.r.on("publishCalendar", () => this.publishCalendar());
+    }
 
+    publishCalendar(): void {
+        let schedules = this.getAllSchedules();
+        // TODO Send a request to server with all the Schedule information in it for processing
+        // TODO Show a success modal on screen if everything went all right.
+        // TODO otherwise show an error modal
     }
 
     calendarToday(): void {
@@ -266,7 +272,35 @@ export class MyCalendar {
     }
 
     getAllSchedules(): Array<ISchedule> {
-        return (this.calendar as any)._controller.schedules.items;
+
+        let rawSchedules = (this.calendar as any)._controller.schedules.items;
+        let schedules:Array<ISchedule> = [];
+
+        console.debug(JSON.stringify(rawSchedules));
+
+        // This is what rawSchedules variable content looks like
+        // {
+        //     "23":{
+        //              "id":"4d8c4800-bc74-582b-b79f-ca9b3a465c0c",
+        //                  "title":"Duck",
+        //                  "body":""
+        //               ....
+        //          },
+        //
+        //     "30":{
+        //             "id":"b891911e-8d04-5de9-b6f6-bd6de4143743",
+        //                 "title":"Yewll ow",
+        //                 "body":"",
+        //                  ......
+        //           },
+        // }
+
+        for (const value in rawSchedules) {
+            schedules.push(rawSchedules[value])
+        }
+        console.debug("Schedules on calendar -> ", schedules);
+
+        return schedules;
     }
 
     async updateRoles() {
