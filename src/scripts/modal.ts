@@ -1,4 +1,4 @@
-import {cal} from './calendar';
+import cal from './calendar';
 import * as moment from 'moment';
 import * as chance from 'chance';
 import Ractive from "ractive";

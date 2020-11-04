@@ -249,6 +249,20 @@ export class MyCalendar {
         }
     }
 
+    render(immediate: boolean): void {
+        console.debug("Rendering the calendar view");
+        this.calendar.render(immediate);
+    }
+
+    createSchedules(schedules: Array<ISchedule>): void {
+        console.debug("Adding schedules -> ", schedules);
+        this.calendar.createSchedules(schedules);
+    }
+
+    updateSchedule(scheduleID, calendarID, schedule:ISchedule): void {
+        this.calendar.updateSchedule(scheduleID, calendarID, schedule);
+    }
+
     getAllSchedules(): Array<ISchedule> {
         return (this.calendar as any)._controller.schedules.items;
     }
