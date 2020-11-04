@@ -6,23 +6,6 @@ import 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
 import * as jq from 'jquery';
 import {ISchedule, TZDate} from "tui-calendar";
 
-export function getListOfRoles() {
-    // TODO Send a request to the server to get the list of roles
-    // fetch('http://example.com/movies.json')
-    //     .then(response => response.json())
-    //     .then(function(data) {
-    //         console.log("Received data from server: ");
-    //         console.log(data);
-
-    //         cal.createSchedules(data);
-    //         cal.render(true);
-    //     });
-
-    let roles = ['Role A', 'Role B', 'Role C', 'Role D'];
-
-    return roles;
-}
-
 export function getListOfEmployees() {
     // TODO Send a request to the server to get the list of employees
     // fetch('http://example.com/movies.json')
@@ -177,7 +160,7 @@ export class CreationModal {
         // Initializing instance variables
         this.title = "Create an event";
         this.eventName = "";
-        this.roles = ["Role A", "Role B", "Role C", "Role D"];
+        this.roles = cal.roles;     // Get the roles from calendar object
         this.role = this.roles[0];
         this.employees = ["Emp A", "Emp B"];
         this.employee = this.employees[0];
@@ -567,7 +550,7 @@ export class EditModal {
         // Initializing instance variables
         this.title = "Edit event";
         this.eventName = schedule.title;
-        this.roles = ["Role A", "Role B", "Role C", "Role D"];
+        this.roles = cal.roles;
         this.role = this.schedule.raw.role as string;      // Get role from schedule
         this.employees = ["Emp A", "Emp B"];
         this.employee = this.schedule.raw.employee as string;      // Get employee from schedule

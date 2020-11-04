@@ -14,6 +14,7 @@ export class MyCalendar {
     targetID: string;
     r: Ractive;
     landingSiteID: string;  // The ID of the element where Calendar will unpack itself and setup it's home :D
+    roles: Array<string>;
 
     constructor() {
         console.debug("constructor called");
@@ -116,6 +117,7 @@ export class MyCalendar {
 
         this.registerCallbacks();
         this.updateCurrentlyRenderedRange();
+        this.updateRoles();
     }
 
 
@@ -259,12 +261,19 @@ export class MyCalendar {
         this.calendar.createSchedules(schedules);
     }
 
-    updateSchedule(scheduleID, calendarID, schedule:ISchedule): void {
+    updateSchedule(scheduleID, calendarID, schedule: ISchedule): void {
         this.calendar.updateSchedule(scheduleID, calendarID, schedule);
     }
 
     getAllSchedules(): Array<ISchedule> {
         return (this.calendar as any)._controller.schedules.items;
+    }
+
+    async updateRoles() {
+        this.roles = await fetch('http://192.168.0.105:8000/employee/roles/json/', {
+            mode: 'cors',
+        }).then(response => response.json());
+        console.debug("Updated roles in calendar.");
     }
 
 }
