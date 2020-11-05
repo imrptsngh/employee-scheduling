@@ -676,3 +676,94 @@ export class EditModal {
     }
 
 }
+
+export class InfoModal {
+
+    template: string;
+    target: string;
+    templateID: string;
+    targetID: string;
+    generatedID: string;
+    modalID: string;
+    modalSelector: any;
+    ch: any;    // Instance variable for Chance
+
+    r: Ractive;
+
+    constructor() {
+
+        this.ch = new chance.Chance();
+        this.generatedID = this.ch.guid();
+        this.templateID = "template-"+this.generatedID;
+        this.modalID = "modal-"+this.generatedID;
+
+        this.template = `
+        <script id="${this.templateID}" type="text/ractive">
+            <div class="modal" id="${this.modalID}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scheduleTitle">{{ modalTitle }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                {{ modalContent }}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        `;
+
+        this.target = `
+        <div id="${this.targetID}"></div>
+        `;
+
+        jq("body").append(this.template);
+        jq("body").append(this.target);
+
+
+        this.r = new Ractive({
+            target: `#${this.targetID}`,
+            template: `#${this.templateID}`,
+            data: {
+                modalTitle: "",
+                modalContent: "",
+            }
+        });
+        console.debug("Initialized Ractive.js");
+
+        this.modalSelector = jq("#"+this.modalID);
+    }
+
+    open(): void {
+        this.modalSelector.modal("show");
+    }
+
+    cleanUp(): void {
+        jq("#"+this.targetID).remove();
+        jq("#"+this.templateID).remove();
+        console.debug("Cleaned up template and target HTML content.");
+    }
+
+    close(): void {
+        this.modalSelector.modal("hide");
+        this.cleanUp();
+    }
+
+    setTitle(title: string): void {
+        this.r.set("modalTitle", title);
+    }
+
+    setContent(content: string): void {
+        this.r.set("modalContent", content);
+    }
+
+}
