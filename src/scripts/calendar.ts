@@ -15,6 +15,8 @@ export class MyCalendar {
     r: Ractive;
     landingSiteID: string;  // The ID of the element where Calendar will unpack itself and setup it's home :D
     roles: Array<string>;
+    schedules: Array<ISchedule>;
+
 
     constructor() {
         console.debug("constructor called");
@@ -118,6 +120,7 @@ export class MyCalendar {
         this.registerCallbacks();
         this.updateCurrentlyRenderedRange();
         this.updateRoles();
+        this.getSchedulesFromServer();
     }
 
 
@@ -334,6 +337,19 @@ export class MyCalendar {
             mode: 'cors',
         }).then(response => response.json());
         console.debug("Updated roles in calendar.");
+    }
+
+    getSchedulesFromServer(): void {
+        fetch('http://192.168.0.105:8000/employee/publish_schedule/', {
+            mode: 'cors',
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.debug("Received schedules from server -> ", data);
+                this.schedules = data;
+                // Creating schedules
+                this.calendar.createSchedules(this.schedules);
+            });
     }
 
 }
