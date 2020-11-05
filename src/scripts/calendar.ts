@@ -18,9 +18,17 @@ export class MyCalendar {
     schedules: Array<ISchedule>;
     employees: Array<string>;
 
+    employeeListEndpoint: string;
+    roleListEndpoint: string;
+    publishScheduleEndpoint: string;
+
 
     constructor() {
         console.debug("constructor called");
+
+        this.employeeListEndpoint = "http://192.168.0.105:8000/employee/employee/json/";
+        this.roleListEndpoint = "http://192.168.0.105:8000/employee/roles/json/";
+        this.publishScheduleEndpoint = "http://192.168.0.105:8000/employee/publish_schedule/";
 
         let outerThis = this;
         this.calendarID = "calendar";
@@ -202,7 +210,7 @@ export class MyCalendar {
         let schedules = this.getAllSchedules();
         let modal = new InfoModal();
 
-        fetch('http://192.168.0.105:8000/employee/publish_schedule/', {
+        fetch(this.publishScheduleEndpoint, {
             method: 'POST',
             mode: 'cors', // no-cors, *cors, same-origin
             headers: {
@@ -335,7 +343,7 @@ export class MyCalendar {
     }
 
     updateRoles() {
-        fetch('http://192.168.0.105:8000/employee/roles/json/', {
+        fetch(this.roleListEndpoint, {
             mode: 'cors',
         })
             .then(response => response.json())
@@ -352,7 +360,7 @@ export class MyCalendar {
     }
 
     updateEmployees() {
-        fetch('http://192.168.0.105:8000/employee/employee/json/', {
+        fetch(this.employeeListEndpoint, {
             mode: 'cors',
         })
             .then(response => response.json())
