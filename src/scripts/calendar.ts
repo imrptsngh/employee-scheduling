@@ -1,6 +1,6 @@
 import Calendar, {ISchedule, TZDate} from 'tui-calendar';
 import * as moment from 'moment';
-import {CreationModal, DetailModal} from './modal';
+import {CreationModal, DetailModal, InfoModal} from './modal';
 import Ractive from "ractive";
 import * as jq from "jquery";
 
@@ -195,9 +195,37 @@ export class MyCalendar {
 
     publishCalendar(): void {
         let schedules = this.getAllSchedules();
-        // TODO Send a request to server with all the Schedule information in it for processing
-        // TODO Show a success modal on screen if everything went all right.
-        // TODO otherwise show an error modal
+        let modal = new InfoModal();
+
+        fetch('http://192.168.0.105:8000/employee/publish_schedule/', {
+            method: 'POST',
+            mode: 'cors', // no-cors, *cors, same-origin
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(schedules) // body data type must match "Content-Type" header
+        })
+            .then(rawData => rawData.json())
+            .then(data => {
+                // Show success modal if everything went well.
+                if (data.status === "ok") {
+                    modal.setTitle("Success");
+                    modal.setContent("Schedule information was saved successfully!");
+                    modal.open()
+                }
+                // Show error modal if it did not go right.
+                else {
+                    modal.setTitle("Something went wrong");
+                    modal.setContent("Unable to save schedule information on server.");
+                    modal.open()
+                }
+            })
+            .catch(reason => {
+                modal.setTitle("Something went wrong");
+                modal.setContent("Unable to save schedule information on server. Error: "+reason);
+                modal.open()
+            });
+
     }
 
     calendarToday(): void {
@@ -274,9 +302,7 @@ export class MyCalendar {
     getAllSchedules(): Array<ISchedule> {
 
         let rawSchedules = (this.calendar as any)._controller.schedules.items;
-        let schedules:Array<ISchedule> = [];
-
-        console.debug(JSON.stringify(rawSchedules));
+        let schedules: Array<ISchedule> = [];
 
         // This is what rawSchedules variable content looks like
         // {
