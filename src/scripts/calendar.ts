@@ -16,6 +16,7 @@ export class MyCalendar {
     landingSiteID: string;  // The ID of the element where Calendar will unpack itself and setup it's home :D
     roles: Array<string>;
     schedules: Array<ISchedule>;
+    employees: Array<string>;
 
 
     constructor() {
@@ -120,6 +121,7 @@ export class MyCalendar {
         this.registerCallbacks();
         this.updateCurrentlyRenderedRange();
         this.updateRoles();
+        this.updateEmployees();
         this.getSchedulesFromServer();
     }
 
@@ -225,7 +227,7 @@ export class MyCalendar {
             })
             .catch(reason => {
                 modal.setTitle("Something went wrong");
-                modal.setContent("Unable to save schedule information on server. Error: "+reason);
+                modal.setContent("Unable to save schedule information on server. Error: " + reason);
                 modal.open()
             });
 
@@ -332,11 +334,38 @@ export class MyCalendar {
         return schedules;
     }
 
-    async updateRoles() {
-        this.roles = await fetch('http://192.168.0.105:8000/employee/roles/json/', {
+    updateRoles() {
+        fetch('http://192.168.0.105:8000/employee/roles/json/', {
             mode: 'cors',
-        }).then(response => response.json());
-        console.debug("Updated roles in calendar.");
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.roles = data;
+                console.debug("Updated roles in calendar.");
+            })
+            .catch(reason => {
+                let m = new InfoModal();
+                m.setTitle("Roles update fail");
+                m.setContent("Unable to update list of roles from server. Error: " + reason);
+                m.open();
+            });
+    }
+
+    updateEmployees() {
+        fetch('http://192.168.0.105:8000/employee/employee/json/', {
+            mode: 'cors',
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.employees = data;
+                console.debug("Updated list of employees");
+            })
+            .catch(reason => {
+                let m = new InfoModal();
+                m.setTitle("Employee update fail");
+                m.setContent("Unable to update list of employees from server. Error: " + reason);
+                m.open();
+            });
     }
 
     getSchedulesFromServer(): void {

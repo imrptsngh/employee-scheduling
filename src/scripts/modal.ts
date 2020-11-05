@@ -162,7 +162,7 @@ export class CreationModal {
         this.eventName = "";
         this.roles = cal.roles;     // Get the roles from calendar object
         this.role = this.roles[0];
-        this.employees = ["Emp A", "Emp B"];
+        this.employees = cal.employees;
         this.employee = this.employees[0];
         this.allDay = false;
 
@@ -552,7 +552,7 @@ export class EditModal {
         this.eventName = schedule.title;
         this.roles = cal.roles;
         this.role = this.schedule.raw.role as string;      // Get role from schedule
-        this.employees = ["Emp A", "Emp B"];
+        this.employees = cal.employees;
         this.employee = this.schedule.raw.employee as string;      // Get employee from schedule
         this.allDay = schedule.isAllDay;
 
