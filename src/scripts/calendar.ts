@@ -158,15 +158,15 @@ export class MyCalendar {
 
     timeTemplate(schedule: ISchedule): string {
         let html = [];
-
-        // Add time of the event
         let start = moment((schedule.start as TZDate).toUTCString());
-        html.push(start.format('HH:mm'));
+        let time = start.format("HH:mm");
 
-        // Add title of the event
-        html.push(' ' + schedule.title);
-
-        return html.join('');
+        let template = `${time} <br/> 
+                        ${schedule.title} <br/> 
+                        ${schedule.raw.employee} <br/>
+                        ${schedule.raw.role}
+                        `;
+        return template;
     }
 
     allDayTemplate(schedule: ISchedule): string {
