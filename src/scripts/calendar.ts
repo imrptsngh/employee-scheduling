@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import {CreationModal, DetailModal, InfoModal} from './modal';
 import Ractive from "ractive";
 import * as jq from "jquery";
+import * as tui_timezone from "tui-calendar/src/js/common/timezone";
 
 
 export class MyCalendar {
@@ -91,9 +92,26 @@ export class MyCalendar {
             <br />
     
             <!-- Place to render the calendar Application from JS -->
-    
-            <div id="calendar"></div>
-        
+               <div class="row">
+               
+                <div class="col-lg-2">
+                
+                {{ #each employees: num }}
+                    <div class="row">
+                        <div class="col p-1">
+                            <button type="button" class="btn btn-primary" on-click="@.fire('employeeScheduleCreate', employees[num])"> {{ employees[num] }} </button>
+                        </div>
+                    </div>
+                    {{ /each }}
+                    
+                </div>
+                
+                
+                <div class="col-lg-10">
+                    <div id="calendar"></div>
+                </div>
+               
+               </div>
         </script>
         `;
 
@@ -108,12 +126,15 @@ export class MyCalendar {
             template: "#" + this.templateID,
             data: {
                 currentlyRenderedRange: "YYYY.MM",
-                currentCalendarView: "Monthly",
+                currentCalendarView: "Weekly",
+                employees: this.employees ? [] : this.employees,
             }
         })
 
+
         this.calendar = new Calendar("#" + this.calendarID, {
-            defaultView: 'month',
+            defaultView: 'week',
+            taskView: false,
             useCreationPopup: false,
             useDetailPopup: false,
             template: {
@@ -204,6 +225,17 @@ export class MyCalendar {
         this.r.on("weeklyCalView", () => this.setWeeklyView());
         this.r.on("monthCalView", () => this.setMonthlyView());
         this.r.on("publishCalendar", () => this.publishCalendar());
+        this.r.on("employeeScheduleCreate", (context, employeeName) => this.employeeBasedSchedule(employeeName));
+    }
+
+    employeeBasedSchedule(employeeName): void {
+        console.log("Here I'm supposed to show a schedule modal for ", employeeName);
+        let startDate = new Date();
+        let endDate = new Date(startDate.getTime() + 1*60*60*1000);
+
+        let modal = new CreationModal(new tui_timezone.Date(startDate), new tui_timezone.Date(endDate));
+        modal.r.set("employee", employeeName);
+        modal.open();
     }
 
     publishCalendar(): void {
@@ -359,6 +391,7 @@ export class MyCalendar {
             });
     }
 
+
     updateEmployees() {
         fetch(this.employeeListEndpoint, {
             mode: 'cors',
@@ -366,6 +399,7 @@ export class MyCalendar {
             .then(response => response.json())
             .then(data => {
                 this.employees = data;
+                this.r.set("employees", this.employees);
                 console.debug("Updated list of employees");
             })
             .catch(reason => {

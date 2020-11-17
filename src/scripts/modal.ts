@@ -6,22 +6,6 @@ import 'pc-bootstrap4-datetimepicker/build/js/bootstrap-datetimepicker.min.js';
 import * as jq from 'jquery';
 import {ISchedule, TZDate} from "tui-calendar";
 
-export function getListOfEmployees() {
-    // TODO Send a request to the server to get the list of employees
-    // fetch('http://example.com/movies.json')
-    //     .then(response => response.json())
-    //     .then(function(data) {
-    //         console.log("Received data from server: ");
-    //         console.log(data);
-
-    //         cal.createSchedules(data);
-    //         cal.render(true);
-    //     });
-
-    let employees = ['Emp A', 'Emp B', 'Emp C', 'Emp D'];
-    return employees;
-}
-
 
 export class CreationModal {
     title: string;
