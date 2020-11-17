@@ -95,14 +95,15 @@ export class MyCalendar {
                <div class="row">
                
                 <div class="col-lg-2">
-                
                 {{ #each employees: num }}
-                    <div class="row">
-                        <div class="col p-1">
-                            <button type="button" class="btn btn-primary" on-click="@.fire('employeeScheduleCreate', employees[num])"> {{ employees[num] }} </button>
-                        </div>
-                    </div>
-                    {{ /each }}
+                <div class="card text-center" style="">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ employees[num] }}</h5>
+                    <p class="card-text">DEPARTMENT</p>
+                    <button type="button" class="btn btn-primary" on-click="@.fire('employeeScheduleCreate', employees[num])"> Add Schedule </button>
+                  </div>
+                </div>
+                {{ /each }}
                     
                 </div>
                 
